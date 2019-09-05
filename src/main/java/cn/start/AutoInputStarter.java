@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -19,6 +20,8 @@ public class AutoInputStarter {
         Statement statement = conn.createStatement();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar ca=Calendar.getInstance();
+
         NumberFormat Nformat = NumberFormat.getInstance();
         KeyData keyData = new KeyData();
 
@@ -26,6 +29,10 @@ public class AutoInputStarter {
 
         Random rand = new Random();
 
+        //2019-08-22 11:20:00   2019-09-04 17:03:11
+
+        String beginTime = "2019-08-22 11:20:00";
+        //String endTime = simpleDateFormat.format(new Date());
         int oneorignsum = 401064060;
         int twoorignsum = 451569974;
         int oneoutsum = 55406274;
@@ -34,15 +41,23 @@ public class AutoInputStarter {
         int fanflow = 5031511;
         int huiliu = 800972;
 
-       while(true) {
+       while(beginTime.compareTo(simpleDateFormat.format(new Date()))<0) {
 
-           oneorignsum += 2000;
-           twoorignsum += 2000;
-           oneoutsum += 2000;
-           twooutsum += 1000;
+           //设置时间
+           ca.setTime(simpleDateFormat.parse(beginTime));
+           ca.add(Calendar.SECOND, 10);
+           Date temptime = ca.getTime();
+           beginTime = simpleDateFormat.format(temptime);
+           //System.out.println(beginTime);
+           //System.out.println(simpleDateFormat.format(new Date())+"----");
+
+           oneorignsum += 1512;
+           twoorignsum += 1511;
+           oneoutsum += 2006;
+           twooutsum += 1003;
            usedforselfsum += 25;
-           fanflow += 200;
-           huiliu+=110;
+           fanflow += 201;
+           huiliu+=111;
 
            double f = rand.nextDouble();
 
@@ -70,7 +85,7 @@ public class AutoInputStarter {
 
 
 
-           keyData.setTime(simpleDateFormat.format(new Date()));
+           keyData.setTime(beginTime);
            keyData.setOne_water_in_flow((rand.nextInt(5000) + 4000) + "");
            keyData.setTwo_water_in_flow((rand.nextInt(5000) + 4200) + "");
            keyData.setOnechuchang_flow((rand.nextInt(3000) + 7200) + "");
@@ -119,7 +134,7 @@ public class AutoInputStarter {
                }else {
                    //System.out.println("插入成败");
                }*/
-               Thread.sleep(10*1000);
+               //Thread.sleep(10*1000);
            } catch (Exception e) {
                conn.close();
                MssqlConfig.closeConnection();

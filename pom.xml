@@ -30,7 +30,7 @@
         </dependency>
     </dependencies>
 
-
+    <!--打开META-INF目录，将*.SF,*.DSA,*.RSA文件删除，即可。应为有些包有签名，导致错误。-->
     <build>
     <plugins>
         <plugin>
@@ -49,7 +49,20 @@
                                 <mainClass>cn.start.AutoInputStarter</mainClass>
                             </transformer>
                         </transformers>
+                        <!--maven打包出现签名问题时-->
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+
                     </configuration>
+
                 </execution>
             </executions>
         </plugin>
